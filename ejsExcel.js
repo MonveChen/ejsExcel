@@ -735,6 +735,23 @@ async function renderExcel(exlBuf, _data_, opt) {
   };
   workbookEntry = hzip.getEntry("xl/workbook.xml");
   workbookBuf = await inflateRawAsync(workbookEntry.cfile);
+  let appEntry = hzip.getEntry("docProps/app.xml");
+  let appBuf = await inflateRawAsync(appEntry.cfile);
+  if (opt.sheetNameReplace) {
+    let workbookString = workbookBuf.toString()
+    let appString = appBuf.toString() 
+    opt.sheetNameReplace.forEach(({oldName, newName}) => {
+      const reg_wb = new RegExp(`<sheet.*name="${oldName}".*?/>`)
+      const newStr_wb = workbookString.match(reg_wb)[0].replace(oldName, newName)
+      workbookString = workbookString.replace(reg_wb, newStr_wb)
+      //app.xml
+      const reg_app = new RegExp(`<vt:lpstr>${oldName}</vt:lpstr>`)
+      const newStr_app = appString.match(reg_app)[0].replace(oldName, newName)
+      appString = appString.replace(reg_app, newStr_app)
+    })
+    workbookBuf = Buffer.from(workbookString)
+    appBuf = Buffer.from(appString)
+  }
   workbookRelsEntry = hzip.getEntry("xl/_rels/workbook.xml.rels");
   workbookRelsBuf = await inflateRawAsync(workbookRelsEntry.cfile);
   data._hideSheet_ = function (fileName) {
@@ -1225,6 +1242,7 @@ async function renderExcel(exlBuf, _data_, opt) {
   await updateEntryAsync.apply(hzip, ["xl/sharedStrings.xml", buffer2]);
   await updateEntryAsync.apply(hzip, ["xl/workbook.xml", workbookBuf]);
   await updateEntryAsync.apply(hzip, ["xl/_rels/workbook.xml.rels", workbookRelsBuf]);
+  await updateEntryAsync.apply(hzip, ["docProps/app.xml", appBuf])
   return hzip.buffer;
 };
 
