@@ -1,18 +1,18 @@
 {
-  "author": "Sail",
-  "homepage": "https://github.com/sail-sail/ejsExcel",
-  "name": "ejsexcel",
-  "version": "4.1.6",
+  "author": "Sail&Monve",
+  "homepage": "https://github.com/MonveChen/ejsExcel",
+  "name": "@monvechen/ejsexcel",
+  "version": "4.1.7",
   "main": "ejsExcel.js",
   "readme": "README.md",
   "license": "MIT",
   "description": "Intelligent report system, nodejs node export excel, ejsExcel",
   "scripts": {
-    "test": "cd test && node testExcel.js"
+    "test": "cd test && node testExcel.js",
+    "sync_taobao_by_web": "open https://npmmirror.com/sync/$npm_package_name"
   },
   "bugs": {
-    "url": "https://github.com/sail-sail/ejsExcel",
-    "email": "151263555@qq.com"
+    "url": "https://github.com/MonveChen/ejsExcel"
   },
   "keywords": [
     "ejsexcel",
@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sail-sail/ejsExcel.git"
+    "url": "https://github.com/MonveChen/ejsExcel.git"
   },
   "engines": {
     "node": ">=7.6.0"
